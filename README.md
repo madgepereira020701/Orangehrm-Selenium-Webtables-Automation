@@ -1,7 +1,7 @@
 # Orangehrm-Selenium-Webtables-Automation
 Selenium automation for OrangeHRM focusing on Employee List web table operations.
 Currently, the automation is implemented in **Python**. The JavaScript version will be added in a future update.
-## Test Scenario Automated
+## Test Scenario being Automated
 <ol>
   <li>Visit https://opensource-demo.orangehrmlive.com/</li>
 
