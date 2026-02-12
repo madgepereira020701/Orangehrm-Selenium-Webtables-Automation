@@ -92,7 +92,7 @@ Employment Status: &lt;status&gt;
 
 
 
-## How to Run the Automation (Python)
+<!-- ## How to Run the Automation (Python)
 
 Note that The automation code is available in the **`python` branch**.
 
@@ -126,4 +126,4 @@ Note that The automation code is available in the **`python` branch**.
   </li>
 </ol>
 
-## Demo Video (Python)
+## Demo Video (Python) -->
