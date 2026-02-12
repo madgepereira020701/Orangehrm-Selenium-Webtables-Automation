@@ -17,12 +17,11 @@ navbar = {'home':(By.CSS_SELECTOR,'#navbarExample > ul > li.nav-item.active > a'
 'sign up':(By.ID,'signin2')}
     
 
-def register(creds):
-    reg_user_loc = (By.ID,'sign-username')
-    reg_pswd_loc = (By.ID,'sign-password')
-    reg_submit_loc = (By.CSS_SELECTOR,'#signInModal > div > div > div.modal-footer > button.btn.btn-primary')
+def login(creds):
+    reg_user_loc = (By.NAME, "username")
+    reg_pswd_loc = (By.NAME, "password")
+    reg_submit_loc = (By.XPATH, "//button[@type='submit']")
 
-    wait.until(EC.element_to_be_clickable(navbar['sign up'])).click()
     username = wait.until(EC.visibility_of_element_located(reg_user_loc))
     username.clear()
     username.send_keys(creds['username'])
@@ -32,29 +31,14 @@ def register(creds):
 
     register_btn = wait.until(EC.element_to_be_clickable(reg_submit_loc))
     register_btn.click()
-    alert = wait.until(EC.alert_is_present())
-    alertMsg =  alert.text
-    alert.accept()
-    if alertMsg == 'This user already exist.':
-        wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR,'#signInModal > div > div > div.modal-footer > button.btn.btn-secondary'))).click()
-    login(creds)
+    dashboard_header = wait.until(
+    EC.visibility_of_element_located((By.XPATH, "//h6[text()='Dashboard']"))
+        )
 
-
-def login(creds):
-    log_user_loc = (By.ID,'loginusername')
-    log_pswd_loc = (By.ID,'loginpassword')
-    log_submit_loc = (By.CSS_SELECTOR,'#logInModal > div > div > div.modal-footer > button.btn.btn-primary')
-
-    wait.until(EC.element_to_be_clickable(navbar['login'])).click()
-    username = wait.until(EC.visibility_of_element_located(log_user_loc))
-    username.clear()
-    username.send_keys(creds['username'])
-    password = wait.until(EC.visibility_of_element_located(log_pswd_loc))
-    password.clear()
-    password.send_keys(creds['password'])
-
-    login_btn = wait.until(EC.element_to_be_clickable(log_submit_loc))
-    login_btn.click()
+    if dashboard_header.is_displayed():
+        print("Login Successful - Dashboard displayed")
+    else:
+        print("Login Failed")
 
 def prodDesc():
     moreInfoID = (By.ID,'more-information')
@@ -116,12 +100,31 @@ def addToCart(prodCat, prodName, descFlag=0):
                 print("product not found")
                 break
 
-def checkCartRows():
+def checkCartRows(rowflag=0):
     # # click cart 
     wait.until(EC.element_to_be_clickable(navbar['cart'])).click()
     time.sleep(3) # added due to timeoutexception being raised for the above statement 
     cartTable = driver.find_elements(By.CSS_SELECTOR, "tbody#tbodyid tr.success")
     return len(cartTable)
+
+
+def getTableRowsAndColumns():
+    rows = wait.until(
+        EC.presence_of_all_elements_located((By.XPATH, "//div[@role='row' and @class='oxd-table-row oxd-table-row--with-border']"))
+    )
+    return rows
+
+
+def countRows():
+    rows = getTableRows()
+    print("Total Rows:", len(rows))
+    return len(rows)
+
+
+def countColumns():
+    columns = driver.find_elements(By.XPATH, "//div[@role='columnheader']")
+    print("Total Columns:", len(columns))
+    return len(columns)
 
 
 def purchaseFromCart(purchaseValues):
