@@ -126,4 +126,4 @@ Note that The automation code is available in the **`python` branch**.
   </li>
 </ol>
 
-<!--## Demo Video (Python)-->
+## Demo Video (Python)
